@@ -137,15 +137,15 @@ public class _core {
             do {
                 System.out.print("\nPayment Amount: ");
                 int amtPaid = inputUser.nextInt();
-                if (amtPaid > orderTotal) {
+                if (amtPaid >= orderTotal) {
                     int change = amtPaid - orderTotal;
                     System.out.println("Amount Paid: " + amtPaid + " Php");
                     System.out.println("Change: " + change + " Php");
+                    receiptLog(orderTotal, amtPaid, change);
 
                     for (int i = 0; i < Main.menuList.size(); i++) {
                         Main.menuList.get(i).quantityItem = 1;
                     }
-                    receiptLog(orderTotal, amtPaid, change);
 
                     Main.orderList.clear();
                     System.out.println("\nOrder FINALIZED.");
