@@ -1,16 +1,16 @@
+/*
+Program: The really basic restaurant kiosk menu's core class
+Creation Date: 12/06/2022
+Declared Finished Date: 12/07/2022
+Last Modified: 12/07/2022
+Version: 1.02
+ */
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-/*
-Program: The really basic restaurant kiosk menu's core class
-Creation Date: 12/06/2022
-Declared Finished Date: 12/07/2022
-Last Modified: 12/07/2022
-Version: 1.01
- */
 public class _core {
     static class infoItem {
         int quantityItem, priceItem;
@@ -38,20 +38,23 @@ public class _core {
         Main.menuList.add(9, new _core.infoItem(1, "Yogurt Cheesecake", 180));
     }
 
-    static void printMenuList(int index, String name, int price) {
-        System.out.printf("%-12s %-35s %-1s\n", (index+1), name, price + " Php");
-    }
-    static void printOrderList(int index, int quantity, String name, int price) {
-        System.out.printf("%-12s x%-17s %-35s %-1s\n", (index+1), quantity, name, (price*quantity) + " Php");
-    }
-
-    static void bannerMenuList() {
+    // Outputs the ArrayList menuList
+    static void printMenu() {
         System.out.printf("%-17s %-31s %s\n", "Item No.", "Name", "Price");
-    }
-    static void bannerOrderList() {
-        System.out.printf("%-10s %-25s %-31s %s\n", "Item No.", "Quantity", "Name", "Price");
+        for (int i = 0; i < Main.menuList.size(); i++) {
+            System.out.printf("%-12s %-35s %-1s\n", (i+1), Main.menuList.get(i).nameItem, (Main.menuList.get(i).priceItem * Main.menuList.get(i).quantityItem) + " Php");
+        }
     }
 
+    // Outputs the ArrayList menuList
+    static void printOrder() {
+        System.out.printf("%-10s %-25s %-31s %s\n", "Item No.", "Quantity", "Name", "Price");
+        for (int i = 0; i < Main.orderList.size(); i++) {
+            System.out.printf("%-12s x%-17s %-35s %-1s\n", (i+1), Main.orderList.get(i).quantityItem, Main.orderList.get(i).nameItem, (Main.orderList.get(i).priceItem * Main.orderList.get(i).quantityItem) + " Php");
+        }
+    }
+
+    // Print receipt w/ date and hours/mins/secs
     static void receiptLog(int total, int paid, int change) {
         Date date = new Date();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH-mm-ss");

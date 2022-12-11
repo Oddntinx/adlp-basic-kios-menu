@@ -3,7 +3,7 @@ Program: A really basic restaurant kiosk menu
 Creation Date: 12/06/2022
 Declared Finished Date: 12/07/2022
 Last Modified: 12/07/2022
-Version: 1.01
+Version: 1.02
  */
 import java.util.ArrayList;
 import java.util.Objects;
@@ -27,10 +27,7 @@ public class Main {
             // Print customer current order list if there is
             if (orderList.size() != 0) {
                 System.out.println("\n\nCurrent Order:");
-                _core.bannerOrderList();
-                for (int i = 0; i < orderList.size(); i++) {
-                    _core.printOrderList(i, orderList.get(i).quantityItem, orderList.get(i).nameItem, orderList.get(i).priceItem);
-                }
+                _core.printOrder();
             }
 
             System.out.println("\n\n0 - Show the Menu");
@@ -46,19 +43,13 @@ public class Main {
             switch (inputUser.next()) {
                 // Print the food menu
                 case "0" -> {
-                    _core.bannerMenuList();
-                    for (int i = 0; i < menuList.size(); i++) {
-                        _core.printMenuList(i, menuList.get(i).nameItem, menuList.get(i).priceItem);
-                    }
+                    _core.printMenu();
                 }
 
                 // Take order
                 case "1" -> {
                     // Print the food menu
-                    _core.bannerMenuList();
-                    for (int i = 0; i < menuList.size(); i++) {
-                        _core.printMenuList(i, menuList.get(i).nameItem, menuList.get(i).priceItem);
-                    }
+                    _core.printMenu();
 
                     System.out.print("\nItem No.: ");
                     int indexItem = inputUser.nextInt();
@@ -106,10 +97,7 @@ public class Main {
                     if (inputUser.nextInt() == 1) {
                         // Print final order
                         System.out.println("\n\nCurrent Order (Final)");
-                        _core.bannerOrderList();
-                        for (int i = 0; i < orderList.size(); i++) {
-                            _core.printOrderList(i, orderList.get(i).quantityItem, orderList.get(i).nameItem, orderList.get(i).priceItem);
-                        }
+                        _core.printOrder();
 
                         // Add price for total price
                         for (int i = 0; i < orderList.size(); i++) {
@@ -149,10 +137,7 @@ public class Main {
                 // Remove/Void an item from orderList
                 case "3" -> {
                     System.out.println("\n\nCurrent Order:");
-                    _core.bannerOrderList();
-                    for (int i = 0; i < orderList.size(); i++) {
-                        _core.printOrderList(i, orderList.get(i).quantityItem, orderList.get(i).nameItem, orderList.get(i).priceItem);
-                    }
+                    _core.printOrder();
 
                     System.out.print("\nSelect an order to remove: ");
                     int orderRemove = inputUser.nextInt();
@@ -206,10 +191,7 @@ public class Main {
                     int choice = inputUser.nextInt();
                     inputUser.nextLine();
                     if (choice == 1) {
-                        _core.bannerMenuList();
-                        for (int i = 0; i < menuList.size(); i++) {
-                            _core.printMenuList(i, menuList.get(i).nameItem, menuList.get(i).priceItem);
-                        }
+                        _core.printMenu();
 
                         System.out.print("ITEM NO: ");
                         // Adjust index difference from menuList
