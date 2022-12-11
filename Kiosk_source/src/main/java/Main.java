@@ -3,33 +3,24 @@ Program: A really basic restaurant kiosk menu
 Creation Date: 12/06/2022
 Declared Finished Date: 12/07/2022
 Last Modified: 12/07/2022
-Version: 1.0
+Version: 1.01
  */
 import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        // ArrayLists
-        ArrayList<_core.infoItem> menuList = new ArrayList<>();
-        ArrayList<_core.infoItem> orderList = new ArrayList<>();
+    // ArrayLists
+    public static ArrayList<_core.infoItem> menuList = new ArrayList<>();
+    public static ArrayList<_core.infoItem> orderList = new ArrayList<>();
 
+    public static void main(String[] args) {
         Scanner inputUser = new Scanner(System.in);
-        int presetQuantity = 1;
+        int q = 1;
         boolean condition = false;
 
-        // Pre-made Menu (for demonstration)
-        menuList.add(0, new _core.infoItem(presetQuantity, "Ribs and Mash", 295));
-        menuList.add(1, new _core.infoItem(presetQuantity, "Chicken ala King", 154));
-        menuList.add(2, new _core.infoItem(presetQuantity, "Pork Cutlet", 175));
-        menuList.add(3, new _core.infoItem(presetQuantity, "Beef Curry", 199));
-        menuList.add(4, new _core.infoItem(presetQuantity, "Lasagna", 289));
-        menuList.add(5, new _core.infoItem(presetQuantity, "Mediterranean Olive Pasta", 350));
-        menuList.add(6, new _core.infoItem(presetQuantity, "Blue Lemonade", 135));
-        menuList.add(7, new _core.infoItem(presetQuantity, "Espresso Romano", 109));
-        menuList.add(8, new _core.infoItem(presetQuantity, "New York Cheesecake", 200));
-        menuList.add(9, new _core.infoItem(presetQuantity, "Yogurt Cheesecake", 180));
+        // Add a pre-made menu (FOR DEMONSTRATION ONLY)
+        _core.addpremadeMenu();
 
         mm:
         do {
@@ -137,8 +128,10 @@ public class Main {
                                 System.out.println("Change: " + change + " Php");
 
                                 for (int i = 0; i < menuList.size(); i++) {
-                                    menuList.get(i).quantityItem = presetQuantity;
+                                    menuList.get(i).quantityItem = q;
                                 }
+                                _core.receiptLog(orderTotal, amtPaid, change);
+
                                 orderList.clear();
                                 System.out.println("\nOrder FINALIZED.");
                                 enough = true;
@@ -198,7 +191,7 @@ public class Main {
                         int price = inputUser.nextInt();
                         inputUser.nextLine();
 
-                        menuList.add(menuList.size(), new _core.infoItem(presetQuantity, name, price));
+                        menuList.add(menuList.size(), new _core.infoItem(q, name, price));
                         System.out.println(name + " was added to the menu");
                     }
                     else {
