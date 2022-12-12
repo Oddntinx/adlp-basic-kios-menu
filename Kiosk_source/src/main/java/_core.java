@@ -3,14 +3,8 @@ Program: The really basic restaurant kiosk menu's core class
 Creation Date: 12/06/2022
 Declared Finished Date: 12/07/2022
 Last Modified: 12/12/2022
-Version: 1.02
+Version: 1.03
  */
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Objects;
 import java.util.Scanner;
 
 public class _core {
@@ -28,16 +22,16 @@ public class _core {
 
     // Add a pre-made menu (FOR DEMONSTRATION ONLY)
     static void addpremadeMenu() {
-        Main.menuList.add(0, new _core.infoItem(1, "Ribs and Mash", 295));
-        Main.menuList.add(1, new _core.infoItem(1, "Chicken ala King", 154));
-        Main.menuList.add(2, new _core.infoItem(1, "Pork Cutlet", 175));
-        Main.menuList.add(3, new _core.infoItem(1, "Beef Curry", 199));
-        Main.menuList.add(4, new _core.infoItem(1, "Lasagna", 289));
-        Main.menuList.add(5, new _core.infoItem(1, "Mediterranean Olive Pasta", 350));
-        Main.menuList.add(6, new _core.infoItem(1, "Blue Lemonade", 135));
-        Main.menuList.add(7, new _core.infoItem(1, "Espresso Romano", 109));
-        Main.menuList.add(8, new _core.infoItem(1, "New York Cheesecake", 200));
-        Main.menuList.add(9, new _core.infoItem(1, "Yogurt Cheesecake", 180));
+        Main.menuList.add(0, new infoItem(1, "Ribs and Mash", 295));
+        Main.menuList.add(1, new infoItem(1, "Chicken ala King", 154));
+        Main.menuList.add(2, new infoItem(1, "Pork Cutlet", 175));
+        Main.menuList.add(3, new infoItem(1, "Beef Curry", 199));
+        Main.menuList.add(4, new infoItem(1, "Lasagna", 289));
+        Main.menuList.add(5, new infoItem(1, "Mediterranean Olive Pasta", 350));
+        Main.menuList.add(6, new infoItem(1, "Blue Lemonade", 135));
+        Main.menuList.add(7, new infoItem(1, "Espresso Romano", 109));
+        Main.menuList.add(8, new infoItem(1, "New York Cheesecake", 200));
+        Main.menuList.add(9, new infoItem(1, "Yogurt Cheesecake", 180));
     }
 
     static void printKiosk() {
@@ -85,32 +79,7 @@ public class _core {
         System.out.print("How many? ");
         int quantityFood = inputUser.nextInt();
 
-        // If first item order
-        if (Main.orderList.size() == 0) {
-            Main.orderList.add(0, Main.menuList.get(indexItem));
-            Main.orderList.get(0).quantityItem *= quantityFood;
-        }
-        else {
-            boolean match = false;
-
-            // Check if the latest order exist on orderList
-            for (int i = 0; i < Main.orderList.size(); i++) {
-                if (Objects.equals(Main.menuList.get(indexItem).nameItem, Main.orderList.get(i).nameItem)) {
-                    Main.orderList.get(i).quantityItem += quantityFood;
-                    match = true;
-                    break;
-                }
-                else {
-                    match = false;
-                }
-            }
-
-            // If the latest order doesn't exist in the orderList
-            if (!match) {
-                Main.orderList.add(Main.orderList.size(), Main.menuList.get(indexItem));
-                Main.orderList.get(Main.orderList.size()-1).quantityItem *= quantityFood;
-            }
-        }
+        _function.orderProcess(indexItem, quantityFood);
     }
 
     // Finalize the whole
@@ -124,7 +93,7 @@ public class _core {
         if (inputUser.nextInt() == 1) {
             // Print final order
             System.out.println("\n\nCurrent Order (Final)");
-            _core.printOrder();
+            printOrder();
 
             // Add price for total price
             for (int i = 0; i < Main.orderList.size(); i++) {
@@ -141,7 +110,7 @@ public class _core {
                     int change = amtPaid - orderTotal;
                     System.out.println("Amount Paid: " + amtPaid + " Php");
                     System.out.println("Change: " + change + " Php");
-                    receiptLog(orderTotal, amtPaid, change);
+                    _function.receiptLog(orderTotal, amtPaid, change);
 
                     for (int i = 0; i < Main.menuList.size(); i++) {
                         Main.menuList.get(i).quantityItem = 1;
@@ -168,13 +137,8 @@ public class _core {
 
         System.out.print("\nSelect an order to remove: ");
         int orderRemove = inputUser.nextInt();
-        // Adjust index difference from orderList
-        if (orderRemove != 0) {
-            orderRemove--;
-        }
 
-        Main.orderList.remove(orderRemove);
-        System.out.println("\nOrder No.: " + (orderRemove+1) + " was removed.");
+        _function.removeOrderProcess(orderRemove);
     }
 
     // Cancel the whole order
@@ -207,7 +171,7 @@ public class _core {
             int price = inputUser.nextInt();
             inputUser.nextLine();
 
-            Main.menuList.add(Main.menuList.size(), new _core.infoItem(1, name, price));
+            Main.menuList.add(Main.menuList.size(), new infoItem(1, name, price));
             System.out.println(name + " was added to the menu");
         }
         else {
@@ -224,7 +188,7 @@ public class _core {
         int choice = inputUser.nextInt();
         inputUser.nextLine();
         if (choice == 1) {
-            _core.printMenu();
+            printMenu();
 
             System.out.print("ITEM NO: ");
             // Adjust index difference from menuList
@@ -237,39 +201,5 @@ public class _core {
         }
     }
 
-    // Print receipt w/ date and hours/mins/secs
-    static void receiptLog(int total, int paid, int change) {
-        Date date = new Date();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH-mm-ss");
-        File receiptOrder = new File("src/main/resources/receipts/" + "receipt " + dateFormat.format(date).strip() + ".csv");
 
-        try {
-            if (receiptOrder.createNewFile()) {
-                System.out.println("File created: " + receiptOrder.getName());
-            }
-            else {
-                System.out.println("File already exists!");
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            FileWriter fw =  new FileWriter(receiptOrder);
-
-            fw.write("Quantity,Name,Price\n");
-            for (int i = 0; i < Main.orderList.size(); i++) {
-                fw.write(Main.orderList.get(i).quantityItem + "," + Main.orderList.get(i).nameItem + "," + (Main.orderList.get(i).priceItem * Main.orderList.get(i).quantityItem) + '\n');
-            }
-            fw.write("Total:," + total + '\n');
-            fw.write("Paid:," + paid + '\n');
-            fw.write("Change:," + change + '\n');
-
-            fw.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

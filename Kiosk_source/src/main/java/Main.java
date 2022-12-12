@@ -3,7 +3,7 @@ Program: A really basic restaurant kiosk menu
 Creation Date: 12/06/2022
 Declared Finished Date: 12/07/2022
 Last Modified: 12/12/2022
-Version: 1.02
+Version: 1.03
  */
 import java.util.ArrayList;
 import java.util.Scanner;
