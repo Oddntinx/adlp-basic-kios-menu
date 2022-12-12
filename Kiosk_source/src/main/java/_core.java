@@ -2,7 +2,7 @@
 Program: The really basic restaurant kiosk menu's core class
 Creation Date: 12/06/2022
 Declared Finished Date: 12/07/2022
-Last Modified: 12/12/2022
+Last Modified: 12/13/2022
 Version: 1.03
  */
 import java.util.Scanner;
@@ -17,7 +17,6 @@ public class _core {
             this.nameItem = nameItem;
             this.priceItem = priceItem;
         }
-
     }
 
     // Add a pre-made menu (FOR DEMONSTRATION ONLY)
@@ -55,7 +54,7 @@ public class _core {
         }
     }
 
-    // Outputs the ArrayList menuList
+    // Outputs the ArrayList orderList
     static void printOrder() {
         System.out.println("\n\nCurrent Order:");
         System.out.printf("%-10s %-25s %-31s %s\n", "Item No.", "Quantity", "Name", "Price");
@@ -92,7 +91,6 @@ public class _core {
         // If 1 = YES
         if (inputUser.nextInt() == 1) {
             // Print final order
-            System.out.println("\n\nCurrent Order (Final)");
             printOrder();
 
             // Add price for total price
@@ -110,12 +108,14 @@ public class _core {
                     int change = amtPaid - orderTotal;
                     System.out.println("Amount Paid: " + amtPaid + " Php");
                     System.out.println("Change: " + change + " Php");
+
+                    // Export receipt
                     _function.receiptLog(orderTotal, amtPaid, change);
 
+                    // Clear orderList
                     for (int i = 0; i < Main.menuList.size(); i++) {
                         Main.menuList.get(i).quantityItem = 1;
                     }
-
                     Main.orderList.clear();
                     System.out.println("\nOrder FINALIZED.");
                     enough = true;
@@ -135,10 +135,23 @@ public class _core {
         Scanner inputUser = new Scanner(System.in);
         printOrder();
 
-        System.out.print("\nSelect an order to remove: ");
-        int orderRemove = inputUser.nextInt();
+        System.out.println("\n\n1 = YES | 0 = NO");
+        System.out.print("Do you want to REMOVE an ORDER? -> ");
+        if (inputUser.nextInt() == 1) {
+            System.out.print("\nSelect an order to remove: ");
+            int orderRemove = inputUser.nextInt();
 
-        _function.removeOrderProcess(orderRemove);
+            // Adjust index difference from orderList
+            if (orderRemove != 0) {
+                orderRemove--;
+            }
+
+            Main.orderList.remove(orderRemove);
+            System.out.println("\nOrder No.: " + (orderRemove+1) + " was removed.");
+        }
+        else {
+            System.out.println("\nRemoving an order was canceled.");
+        }
     }
 
     // Cancel the whole order
@@ -198,6 +211,9 @@ public class _core {
             }
             Main.menuList.remove(choice);
             inputUser.nextLine();
+        }
+        else {
+            System.out.println("Removal process was canceled.");
         }
     }
 

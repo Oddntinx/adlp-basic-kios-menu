@@ -2,7 +2,7 @@
 Program: The really basic restaurant kiosk menu's function class
 Creation Date: 12/06/2022
 Declared Finished Date: 12/07/2022
-Last Modified: 12/12/2022
+Last Modified: 12/13/2022
 Version: 1.03
  */
 import java.io.File;
@@ -76,15 +76,5 @@ public class _function {
         catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    static void removeOrderProcess(int orderRemove) {
-        // Adjust index difference from orderList
-        if (orderRemove != 0) {
-            orderRemove--;
-        }
-
-        Main.orderList.remove(orderRemove);
-        System.out.println("\nOrder No.: " + (orderRemove+1) + " was removed.");
     }
 }
