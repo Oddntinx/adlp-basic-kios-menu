@@ -42,6 +42,12 @@ public class _function {
         }
     }
 
+    static void quantityCycle() {
+        for (int i = 0; i < Main.menuList.size(); i++) {
+            Main.menuList.get(i).quantityItem = 1;
+        }
+    }
+
     // Print receipt w/ date and hours/mins/secs
     static void receiptLog(int total, int paid, int change) {
         Date date = new Date();

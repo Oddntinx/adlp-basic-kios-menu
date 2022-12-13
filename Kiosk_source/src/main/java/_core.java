@@ -50,7 +50,7 @@ public class _core {
     static void printMenu() {
         System.out.printf("%-17s %-31s %s\n", "Item No.", "Name", "Price");
         for (int i = 0; i < Main.menuList.size(); i++) {
-            System.out.printf("%-12s %-35s %-1s\n", (i+1), Main.menuList.get(i).nameItem, (Main.menuList.get(i).priceItem * Main.menuList.get(i).quantityItem) + " Php");
+            System.out.printf("%-12s %-35s %-1s\n", (i+1), Main.menuList.get(i).nameItem, Main.menuList.get(i).priceItem + " Php");
         }
     }
 
@@ -113,9 +113,7 @@ public class _core {
                     _function.receiptLog(orderTotal, amtPaid, change);
 
                     // Clear orderList
-                    for (int i = 0; i < Main.menuList.size(); i++) {
-                        Main.menuList.get(i).quantityItem = 1;
-                    }
+                    _function.quantityCycle();
                     Main.orderList.clear();
                     System.out.println("\nOrder FINALIZED.");
                     enough = true;
@@ -161,6 +159,7 @@ public class _core {
         System.out.println("\n\n1 = YES | 0 = NO");
         System.out.print("Do you want to CANCEL the ORDER? -> ");
         if (inputUser.nextInt() == 1) {
+            _function.quantityCycle();
             Main.orderList.clear();
             System.out.println("\nOrder was CANCELLED.");
         }
